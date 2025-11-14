@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration
+# Note: This file may be ignored if build settings are configured in the dashboard
+# Dashboard settings take precedence over this file
+
+[build]
+command = "npm run build"
+cwd = "app"
+publish = "dist"
+
+[build.environment]
+NODE_VERSION = "20"
