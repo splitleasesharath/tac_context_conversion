@@ -11,7 +11,6 @@ review_image_dir: `<absolute path to codebase>/agents/<adw_id>/<agent_name>/revi
 
 ## Instructions
 
-- **IMPORTANT: Execute `/no_fallback_check` first** to scan the codebase for fallback mechanisms and hardcoded data before reviewing
 - Check current git branch using `git branch` to understand context
 - Run `git diff origin/main` to see all changes made in current branch. Continue even if there are no changes related to the spec file.
 - Find the spec file by looking for specs/*.md files in the diff that match the current branch name
@@ -75,7 +74,7 @@ IMPORTANT: Read and **Execute** `.claude/commands/prepare_app.md` now to prepare
             "issue_description": "string - description of the issue",
             "issue_resolution": "string - description of the resolution",
             "issue_severity": "string - severity of the issue between 'skippable', 'tech_debt', 'blocker'",
-            "issue_type": "string - type of issue: 'fallback_mechanism', 'hardcoded_data', 'functional', 'ui', 'performance', 'security', or 'other'"
+            "issue_type": "string - type of issue: 'functional', 'ui', 'performance', 'security', or 'other'"
         },
         ...
     ],
@@ -85,3 +84,38 @@ IMPORTANT: Read and **Execute** `.claude/commands/prepare_app.md` now to prepare
         "...",
     ]
 }
+```
+
+---
+
+# CRITICAL FINAL INSTRUCTIONS
+
+**YOUR ENTIRE RESPONSE MUST BE VALID JSON MATCHING THE OUTPUT STRUCTURE ABOVE.**
+
+**DO NOT:**
+- ❌ Return any markdown, explanations, summaries, or headers
+- ❌ Use markdown code fences like ```json or ```
+- ❌ Add any text before or after the JSON
+- ❌ Return incomplete JSON or work-in-progress messages
+
+**YOU MUST:**
+- ✅ Complete the ENTIRE review process (git diff → spec analysis → UI validation → screenshots)
+- ✅ Return ONLY raw JSON with no markdown formatting
+- ✅ Include all screenshot paths in the screenshots array
+- ✅ Ensure the JSON is valid and parseable by JSON.parse()
+
+**Example of CORRECT output (exactly like this, nothing else):**
+```
+{"success": true, "review_summary": "The search schedule selector URL synchronization has been implemented with Monday-Friday defaults. All URL parameters work correctly and the implementation matches the spec requirements.", "review_issues": [], "screenshots": ["/absolute/path/to/01_screenshot.png", "/absolute/path/to/02_screenshot.png"]}
+```
+
+**Example of WRONG output (DO NOT DO THIS):**
+```
+# Review Report
+
+## Analysis Summary
+...
+
+Here's my review in JSON:
+{"success": true, ...}
+```
